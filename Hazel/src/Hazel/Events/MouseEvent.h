@@ -2,7 +2,6 @@
 
 #include "Hazel/Events/Event.h"
 
-
 typedef uint16_t MouseCode;
 
 namespace Hazel {

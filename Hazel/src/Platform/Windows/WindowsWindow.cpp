@@ -51,19 +51,30 @@ namespace Hazel {
 			int success = glfwInit();
 			HZ_CORE_INFO("GLFW INIT: {0}", success);
 			HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
-			//glfwSetErrorCallback(GLFWErrorCallback);
+			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 		m_Window = glfwCreateWindow((int) props.Width, (int) props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
+
+		//GLFW EVENT CALLBACK
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			data.Width = width;
+			data.Height = height;
+
+			WindowResizeEvent event(width, height);
+			data.EventCallback(event);
+		});
 	}
 
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
-		//glfwTerminate();
+		glfwTerminate();
 	}
 
 	void WindowsWindow::OnUpdate()
