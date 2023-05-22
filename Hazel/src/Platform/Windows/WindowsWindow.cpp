@@ -125,7 +125,7 @@ namespace Hazel {
 
 			MouseScrolledEvent event(xoffset, yoffset);
 			data.EventCallback(event);
-		});
+		}); 
 
 		glfwSetCursorPosCallback(m_Window, [] (GLFWwindow* window, double xpos, double ypos){
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
