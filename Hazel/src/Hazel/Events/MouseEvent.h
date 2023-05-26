@@ -9,11 +9,14 @@ namespace Hazel {
 	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(const float x, const float y)
-			: m_MouseX(x), m_MouseY(y) {}
+		MouseMovedEvent(const float x, const float y, const float wx, const float wy)
+			: m_MouseX(x), m_MouseY(y),
+			  m_WindowX(wx), m_WindowY(wy) {}
 
 		float GetX() const { return m_MouseX; }
 		float GetY() const { return m_MouseY; }
+		float GetWindowX() const { return m_WindowX; }
+		float GetWindowY() const { return m_WindowY; }
 
 		std::string ToString() const override
 		{
@@ -26,6 +29,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
+		float m_WindowX, m_WindowY;
 	};
 
 	class MouseScrolledEvent : public Event

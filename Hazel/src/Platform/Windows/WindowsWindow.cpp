@@ -67,7 +67,9 @@ namespace Hazel {
 			data.Width = width;
 			data.Height = height;
 
-			WindowResizeEvent event(width, height);
+			int display_w, display_h;
+			glfwGetFramebufferSize(window, &display_w, &display_h);
+			WindowResizeEvent event(width, height, display_w, display_h);
 			data.EventCallback(event);
 		});
 
@@ -102,6 +104,13 @@ namespace Hazel {
 			}
 		});
 
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int codepoint) {
+			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
+
+			KeyTypedEvent event(codepoint);
+			data.EventCallback(event);
+		});
+
 		glfwSetMouseButtonCallback(m_Window, [] (GLFWwindow* window, int button, int action, int mods){
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 
@@ -131,7 +140,10 @@ namespace Hazel {
 		glfwSetCursorPosCallback(m_Window, [] (GLFWwindow* window, double xpos, double ypos){
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 		
-			MouseMovedEvent event(xpos, ypos);
+			int window_x, window_y;
+			glfwGetWindowPos(window, &window_x, &window_y);
+
+			MouseMovedEvent event(xpos, ypos, window_x, window_y);
 			data.EventCallback(event);
 		});
 	}

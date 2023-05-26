@@ -7,11 +7,13 @@ namespace Hazel {
 	class WindowResizeEvent : public Event
 	{
 	public:
-		WindowResizeEvent(unsigned int width, unsigned int height)
-			: m_Width(width), m_Height(height) {}
+		WindowResizeEvent(unsigned int width, unsigned int height, unsigned int displaywidth, unsigned int displayheight)
+			: m_Width(width), m_Height(height), m_DisplayWidth(displaywidth), m_DisplayHeight(displayheight) {}
 
 		unsigned int GetWidth() const { return m_Width; }
 		unsigned int GetHeight() const { return m_Height; }
+		unsigned int GetDisplayWidth() const { return m_DisplayWidth; }
+		unsigned int GetDisplayHeight() const { return m_DisplayHeight; }
 
 		std::string ToString() const override
 		{
@@ -24,6 +26,7 @@ namespace Hazel {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	private:
 		unsigned int m_Width, m_Height;
+		unsigned int m_DisplayWidth, m_DisplayHeight;
 	};
 
 	class WindowCloseEvent : public Event
