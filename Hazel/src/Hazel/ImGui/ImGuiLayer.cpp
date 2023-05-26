@@ -1,7 +1,6 @@
 #include "hzpch.h"
 #include "ImGuiLayer.h"
 
-#include "imgui.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "Hazel/Application.h"
 
@@ -38,7 +37,8 @@ namespace Hazel {
 
 	void ImGuiLayer::OnDetach()
 	{
-
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui::DestroyContext();
 	}
 
 	void ImGuiLayer::OnUpdate()
@@ -124,7 +124,7 @@ namespace Hazel {
 		io.AddKeyEvent(ImGuiMod_Alt, (glfwGetKey(bdwin, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) || (glfwGetKey(bdwin, GLFW_KEY_RIGHT_ALT) == GLFW_PRESS));
 		io.AddKeyEvent(ImGuiMod_Super, (glfwGetKey(bdwin, GLFW_KEY_LEFT_SUPER) == GLFW_PRESS) || (glfwGetKey(bdwin, GLFW_KEY_RIGHT_SUPER) == GLFW_PRESS));
 
-		ImGuiKey imgui_key = (ImGuiKey)GlfwKeyToImGuiKey(event.GetKeyCode());
+		ImGuiKey imgui_key = GlfwKeyToImGuiKey(event.GetKeyCode());
 		io.AddKeyEvent(imgui_key, true);
 
 		return false;
@@ -133,7 +133,7 @@ namespace Hazel {
 	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& event)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		ImGuiKey imgui_key = (ImGuiKey)GlfwKeyToImGuiKey(event.GetKeyCode());
+		ImGuiKey imgui_key = GlfwKeyToImGuiKey(event.GetKeyCode());
 		io.AddKeyEvent(imgui_key, false);
 
 		return false;
@@ -157,7 +157,7 @@ namespace Hazel {
 		return false;
 	}
 
-	int ImGuiLayer::GlfwKeyToImGuiKey(int key)
+	ImGuiKey ImGuiLayer::GlfwKeyToImGuiKey(int key)
 	{
 		switch (key)
 		{

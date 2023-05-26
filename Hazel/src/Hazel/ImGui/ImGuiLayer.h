@@ -5,6 +5,7 @@
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 
+#include "imgui.h"
 
 namespace Hazel {
 
@@ -29,7 +30,7 @@ namespace Hazel {
 		bool OnKeyTypedEvent(KeyTypedEvent& event);
 		bool OnWindowResizeEvent(WindowResizeEvent& event);
 		
-		int GlfwKeyToImGuiKey(int key);
+		ImGuiKey GlfwKeyToImGuiKey(int key);
 	private:
 		float m_Time = 0.0f;
 	};
